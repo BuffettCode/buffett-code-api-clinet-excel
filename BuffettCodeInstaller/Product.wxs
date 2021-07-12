@@ -45,7 +45,8 @@
 
         <!-- There must be a feature in the project and all components must be installed into the feature to be installed. -->
         <Feature Id="BuffettCodeExcelAddIn" Title="!(loc.ProductName)" Description="!(loc.ProductDescription)" Level="1" AllowAdvertise="no">
-            <ComponentGroupRef Id="SetupRegistries"/>
+            <ComponentGroupRef Id="SetupRegistry"/>
+            <ComponentGroupRef Id="CleanupRegistry"/>
             <ComponentGroupRef Id="HeatGeneratedAddinRibbon"/>
             <ComponentGroupRef Id="ExcelFunctions"/>
         </Feature>
@@ -106,18 +107,4 @@
         </AdminExecuteSequence>
 
     </Product>
-
-    <Fragment>
-        <ComponentGroup Id="SetupRegistries">
-            <Component Id="BC_RIBBON_VSTO_REGISTRY" Guid="6C761D06-FF04-4FAA-A072-A02E5B5B724D" Directory="AddinFolder">
-                <!-- VSTOのレジストリ定義 -->
-                <RegistryKey Root="HKCU" Key="Software\Microsoft\Office\Excel\Addins\BuffettCode">
-                    <RegistryValue Name="Description" Value="BuffettCode" Type="string" Action="write" />
-                    <RegistryValue Name="FriendlyName" Value="BuffettCode" Type="string" Action="write" />
-                    <RegistryValue Name="LoadBehavior" Value="3" Type="integer" Action="write" />
-                    <RegistryValue Name="Manifest" Value="filFDEE9AC002BC107FFB0DF3869A23CC6C" Type="string" Action="write" />
-                </RegistryKey>
-            </Component>
-        </ComponentGroup>
-    </Fragment>
 </Wix>

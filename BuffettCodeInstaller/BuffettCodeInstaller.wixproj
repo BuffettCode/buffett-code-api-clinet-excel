@@ -37,6 +37,7 @@
     <Compile Include="ExcelFunctions.wxs" />
     <Compile Include="HeatGeneratedAddinRibbon.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="Registry.wxs" />
     <!-- default  -->
     <!-- This is the Heat created one -->
   </ItemGroup>
