@@ -2,7 +2,7 @@
 <?define ProductVersion = "1.1.0"?>
 <?define ProductUpgradeCode = "E4CF053E-BB35-4A48-8EF7-D124F7A52C1A"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="$(var.ProductUpgradeCode)"
+    <Product Id="*"
              Name="!(loc.ProductName)"
              Language="!(loc.LANG)"
              Version="$(var.ProductVersion)"
@@ -16,6 +16,15 @@
                  Manufacturer="!(loc.ProductManufacturer)"
                  Description="!(loc.ProductDescription)"
                  Comments="!(loc.ProductCopyright)"/>
+
+        <Upgrade Id="$(var.ProductUpgradeCode)">
+            <UpgradeVersion Minimum="1.0.0"
+                      IncludeMinimum="yes"
+                      OnlyDetect="no"
+                      Maximum="$(var.ProductVersion)"
+                      IncludeMaximum="no"
+                      Property="PREVIOUSFOUND" />
+        </Upgrade>
 
         <MediaTemplate EmbedCab="yes" />
         <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
@@ -63,11 +72,9 @@
         <!--IMPORTANT ALL MS OFFICE SUPPORTED VERSIONS ARE HERE: Office 2003, 2007, 2010, 2013, 2016 Keep it uptodate-->
         <!-- these numbers will be parsed individually in the custom actions with InvariantCulture and NumberStyles.Any -->
         <Property Id="OFFICEREGKEYS" Value="11.0,12.0,14.0,15.0,16.0" />
-        <!--
         <Property Id="BC_RIBBON_VSTO" Value="!(loc.ProductNameNoSpace).vsto" />
         <Property Id="BC_UDF_XLL32" Value="!(loc.ProductNameNoSpace)32.xll" />
         <Property Id="BC_UDF_XLL64" Value="!(loc.ProductNameNoSpace)64.xll" />
-        -->
 
         <!-- The property below will disable the repair button. -->
         <!--<Property Id="ARPNOREPAIR" Value="yes" />-->
