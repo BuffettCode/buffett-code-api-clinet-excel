@@ -1,76 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define ProductVersion = "1.0.3"?>
+<?define ProductVersion = "1.1.0"?>
 <?define ProductUpgradeCode = "E4CF053E-BB35-4A48-8EF7-D124F7A52C1A"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="$(var.ProductUpgradeCode)"
-           Name="!(loc.ProductName)" 
-           Language="!(loc.LANG)"
-           Version="$(var.ProductVersion)" 
-           Manufacturer="!(loc.ProductManufacturer)" 
-           UpgradeCode="$(var.ProductUpgradeCode)">
-    
-    <Package InstallerVersion="200" 
-             Compressed="yes" 
-             InstallPrivileges="elevated" 
-             InstallScope="perMachine" 
-             Manufacturer="!(loc.ProductManufacturer)" 
-             Description="!(loc.ProductDescription)"
-             Comments="!(loc.ProductCopyright)"/>
-    
-    <MediaTemplate EmbedCab="yes" />
-    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*"
+             Name="!(loc.ProductName)"
+             Language="!(loc.LANG)"
+             Version="$(var.ProductVersion)"
+             Manufacturer="!(loc.ProductManufacturer)"
+             UpgradeCode="$(var.ProductUpgradeCode)">
 
-    <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.jpg" />
-    <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.jpg" />
-    <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
+        <Package InstallerVersion="200"
+                 Compressed="yes"
+                 InstallPrivileges="elevated"
+                 InstallScope="perMachine"
+                 Manufacturer="!(loc.ProductManufacturer)"
+                 Description="!(loc.ProductDescription)"
+                 Comments="!(loc.ProductCopyright)"/>
 
-    <!-- ICONS -->
-    <Icon Id="ProductIcon" SourceFile="Resources\Icon.ico" />
-    <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+        <Upgrade Id="$(var.ProductUpgradeCode)">
+            <UpgradeVersion Minimum="1.0.0"
+                      IncludeMinimum="yes"
+                      OnlyDetect="no"
+                      Maximum="$(var.ProductVersion)"
+                      IncludeMaximum="no"
+                      Property="PREVIOUSFOUND" />
+        </Upgrade>
 
-    <!-- Windows Installer set TARGETDIR to the local hard drive with the most free space.  The top-level Directory must be Id="TARGETDIR" Name="SourceDir" -->
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
-        <Directory Id="COMPANYDIR" Name="!(loc.ProductManufacturer)">
-          <Directory Id="AddinFolder" Name="!(loc.ProductNameNoSpace)">
-          </Directory>
+        <MediaTemplate EmbedCab="yes" />
+        <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
+
+        <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.jpg" />
+        <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.jpg" />
+        <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
+
+        <!-- ICONS -->
+        <Icon Id="ProductIcon" SourceFile="Resources\Icon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+
+        <!-- Windows Installer set TARGETDIR to the local hard drive with the most free space.  The top-level Directory must be Id="TARGETDIR" Name="SourceDir" -->
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="COMPANYDIR" Name="!(loc.ProductManufacturer)">
+                    <Directory Id="AddinFolder" Name="!(loc.ProductNameNoSpace)">
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="AppDataFolder">
+                <Directory Id="COMPANYAPPDATADIR" Name="!(loc.ProductManufacturer)">
+                    <!-- !! THIS ID IS USED IN THE CUSTOM ACTION SO DO NOT CHANGE IT -->
+                </Directory>
+            </Directory>
         </Directory>
-      </Directory>
-      <Directory Id="AppDataFolder">
-        <Directory Id="COMPANYAPPDATADIR" Name="!(loc.ProductManufacturer)">
-          <!-- !! THIS ID IS USED IN THE CUSTOM ACTION SO DO NOT CHANGE IT -->
-        </Directory>
-      </Directory>
-    </Directory>
 
-    <!-- There must be a feature in the project and all components must be installed into the feature to be installed. -->
-    <Feature Id="ExcelAddIn" Title="!(loc.ProductName)" Description="!(loc.ProductDescription)" Level="1" AllowAdvertise="no">
-      <ComponentGroupRef Id="XLLDistributables"/>
-    </Feature>
+        <!-- There must be a feature in the project and all components must be installed into the feature to be installed. -->
+        <Feature Id="BuffettCodeExcelAddIn" Title="!(loc.ProductName)" Description="!(loc.ProductDescription)" Level="1" AllowAdvertise="no">
+            <ComponentGroupRef Id="SetupRegistry"/>
+            <ComponentGroupRef Id="CleanupRegistry"/>
+            <ComponentGroupRef Id="HeatGeneratedAddinRibbon"/>
+            <ComponentGroupRef Id="ExcelFunctions"/>
+        </Feature>
 
-    <PropertyRef Id="NETFRAMEWORK40CLIENT" />
-    <Condition Message="[ProductName] requires .NET Framework 4.0.">Installed OR NETFRAMEWORK40CLIENT</Condition>
-    <UI Id="UI">
-       <!--See http://wix.sourceforge.net/manual-wix3/WixUI_index.htm for more information
-       The following line adds the minimal WiX Dialog set to the install--> 
-      <UIRef Id="WixUI_Minimal"/>
-      <!-- This TextStyle is used in the CustonMessages.wxl file -->
-      <TextStyle Id="Black10" FaceName="Tahoma" Size="10" Red="0" Green="0" Blue="0" Bold="yes" />
-    </UI>
-    <!--IMPORTANT ALL MS OFFICE SUPPORTED VERSIONS ARE HERE: Office 2003, 2007, 2010, 2013, 2016 Keep it uptodate-->
-    <!-- these numbers will be parsed individually in the custom actions with InvariantCulture and NumberStyles.Any -->
-    <Property Id="OFFICEREGKEYS" Value="11.0,12.0,14.0,15.0,16.0" />
-    <Property Id="VSTO" Value="!(loc.ProductNameNoSpace).vsto" />
-    <Property Id="XLL32" Value="!(loc.ProductNameNoSpace)32.xll" />
-    <Property Id="XLL64" Value="!(loc.ProductNameNoSpace)64.xll" />
-    
-    <!-- The property below will disable the repair button. -->
-    <!--<Property Id="ARPNOREPAIR" Value="yes" />-->
-    <Property Id="PromptToCloseProcesses" Value="EXCEL" />
-    <Property Id="PromptToCloseDisplayNames" Value="Microsoft Excel" />
-    
-    <!--
+        <PropertyRef Id="NETFRAMEWORK40CLIENT" />
+        <Condition Message="[ProductName] requires .NET Framework 4.0.">Installed OR NETFRAMEWORK40CLIENT</Condition>
+        <UI Id="UI">
+            <!--See http://wix.sourceforge.net/manual-wix3/WixUI_index.htm for more information
+       The following line adds the minimal WiX Dialog set to the install-->
+            <UIRef Id="WixUI_Minimal"/>
+            <!-- This TextStyle is used in the CustonMessages.wxl file -->
+            <TextStyle Id="Black10" FaceName="Tahoma" Size="10" Red="0" Green="0" Blue="0" Bold="yes" />
+        </UI>
+        <!--IMPORTANT ALL MS OFFICE SUPPORTED VERSIONS ARE HERE: Office 2003, 2007, 2010, 2013, 2016 Keep it uptodate-->
+        <!-- these numbers will be parsed individually in the custom actions with InvariantCulture and NumberStyles.Any -->
+        <Property Id="OFFICEREGKEYS" Value="11.0,12.0,14.0,15.0,16.0" />
+        <Property Id="BC_RIBBON_VSTO" Value="!(loc.ProductNameNoSpace).vsto" />
+        <Property Id="BC_UDF_XLL32" Value="!(loc.ProductNameNoSpace)32.xll" />
+        <Property Id="BC_UDF_XLL64" Value="!(loc.ProductNameNoSpace)64.xll" />
+
+        <!-- The property below will disable the repair button. -->
+        <!--<Property Id="ARPNOREPAIR" Value="yes" />-->
+        <Property Id="PromptToCloseProcesses" Value="EXCEL" />
+        <Property Id="PromptToCloseDisplayNames" Value="Microsoft Excel" />
+
+        <!--
     To handle registering the XLL, a custom action project must be created and a project reference must be created. 
     This project will create a DLL that WiX can understand.
     The binary refers to the dll created by the custom action project.
@@ -79,84 +90,28 @@
     For more information on custom actions, read
     http://www.codeproject.com/Articles/132918/Creating-Custom-Action-for-WIX-Written-in-Managed?fid=1599130&df=90&mpp=25&noise=3&prof=False&sort=Position&view=Quick&spc=Relaxed&select=4131367&fr=1#xx0xx
     -->
-    
-    <Binary Id="InstallerCA.CA.dll" SourceFile="$(var.InstallerCA.TargetDir)$(var.InstallerCA.TargetName).CA.dll" />
-    <CustomAction Id="Action_RegisterAddIn.SetProperty" Return="check" Property="Action_RegisterAddIn" Value="OFFICEREGKEYS=[OFFICEREGKEYS];XLL32=[XLL32];XLL64=[XLL64]" />
-    <CustomAction Id="Action_RegisterAddIn" BinaryKey="InstallerCA.CA.dll" DllEntry="CaRegisterAddIn" Return="check" Execute="immediate">
-    </CustomAction>
-    <CustomAction Id="Action_UnRegisterAddIn.SetProperty" Return="check" Property="Action_UnRegisterAddIn" Value="OFFICEREGKEYS=[OFFICEREGKEYS];XLL32=[XLL32];XLL64=[XLL64]" />
-    <CustomAction Id="Action_UnRegisterAddIn" BinaryKey="InstallerCA.CA.dll" DllEntry="CaUnRegisterAddIn" Return="check" Execute="immediate" />
-    <CustomAction Id="Action_CloseAppsPrompt" BinaryKey="InstallerCA.CA.dll" DllEntry="ClosePrompt" Return="check" />
-    <InstallExecuteSequence>
-      <Custom Action="Action_CloseAppsPrompt" After="Action_RegisterAddIn.SetProperty" />
-      <Custom Action="Action_RegisterAddIn.SetProperty" Before="Action_RegisterAddIn">NOT Installed</Custom>
-      <Custom Action="Action_RegisterAddIn" Before="InstallFinalize">NOT Installed</Custom>
-      <Custom Action="Action_UnRegisterAddIn.SetProperty" Before="Action_UnRegisterAddIn">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
-      <Custom Action="Action_UnRegisterAddIn" Before="InstallFinalize">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
-    </InstallExecuteSequence>
-    <AdminExecuteSequence>
-      <Custom Action="Action_CloseAppsPrompt" After="Action_RegisterAddIn.SetProperty" />
-      <Custom Action="Action_RegisterAddIn.SetProperty" Before="InstallFinalize">NOT Installed</Custom>
-      <Custom Action="Action_RegisterAddIn" After="Action_RegisterAddIn.SetProperty">NOT Installed</Custom>
-      <Custom Action="Action_UnRegisterAddIn.SetProperty" Before="InstallFinalize">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
-      <Custom Action="Action_UnRegisterAddIn" After="Action_UnRegisterAddIn.SetProperty">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
-    </AdminExecuteSequence>
 
-  </Product>
+        <Binary Id="InstallerCA.CA.dll" SourceFile="$(var.InstallerCA.TargetDir)$(var.InstallerCA.TargetName).CA.dll" />
+        <CustomAction Id="Action_RegisterAddIn.SetProperty" Return="check" Property="Action_RegisterAddIn" Value="OFFICEREGKEYS=[OFFICEREGKEYS];XLL32=[XLL32];XLL64=[XLL64]" />
+        <CustomAction Id="Action_RegisterAddIn" BinaryKey="InstallerCA.CA.dll" DllEntry="CaRegisterAddIn" Return="check" Execute="immediate">
+        </CustomAction>
+        <CustomAction Id="Action_UnRegisterAddIn.SetProperty" Return="check" Property="Action_UnRegisterAddIn" Value="OFFICEREGKEYS=[OFFICEREGKEYS];XLL32=[XLL32];XLL64=[XLL64]" />
+        <CustomAction Id="Action_UnRegisterAddIn" BinaryKey="InstallerCA.CA.dll" DllEntry="CaUnRegisterAddIn" Return="check" Execute="immediate" />
+        <CustomAction Id="Action_CloseAppsPrompt" BinaryKey="InstallerCA.CA.dll" DllEntry="ClosePrompt" Return="check" />
+        <InstallExecuteSequence>
+            <Custom Action="Action_CloseAppsPrompt" After="Action_RegisterAddIn.SetProperty" />
+            <Custom Action="Action_RegisterAddIn.SetProperty" Before="Action_RegisterAddIn">NOT Installed</Custom>
+            <Custom Action="Action_RegisterAddIn" Before="InstallFinalize">NOT Installed</Custom>
+            <Custom Action="Action_UnRegisterAddIn.SetProperty" Before="Action_UnRegisterAddIn">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
+            <Custom Action="Action_UnRegisterAddIn" Before="InstallFinalize">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
+        </InstallExecuteSequence>
+        <AdminExecuteSequence>
+            <Custom Action="Action_CloseAppsPrompt" After="Action_RegisterAddIn.SetProperty" />
+            <Custom Action="Action_RegisterAddIn.SetProperty" Before="InstallFinalize">NOT Installed</Custom>
+            <Custom Action="Action_RegisterAddIn" After="Action_RegisterAddIn.SetProperty">NOT Installed</Custom>
+            <Custom Action="Action_UnRegisterAddIn.SetProperty" Before="InstallFinalize">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
+            <Custom Action="Action_UnRegisterAddIn" After="Action_UnRegisterAddIn.SetProperty">Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
+        </AdminExecuteSequence>
 
-  <Fragment>
-    <!-- 
-    Components always have unique GUIDs so that Windows can track every file installed. This information is stored in the registry.
-    Components should only contain a single file. KeyPath files will be replaced if missing by the repair button on the installer.
-    Try using for source: $(var.PROJECTREF.TargetDir)$(var.PROJECTREF.TargetName)-AddIn64-packed.xll
-    -->
-    <ComponentGroup Id="XLLDistributables">
-      <Component Id="VSTO" Guid="6C761D06-FF04-4FAA-A072-A02E5B5B724D" Directory="AddinFolder">
-        <!-- VSTOの構成ファイル -->
-        <File Id="EXCEL.VSTO" Source="$(var.BuffettCodeAddinRibbon.TargetPath)" />
-        <File Id="EXCEL.MANIFEST" Source="$(var.BuffettCodeAddinRibbon.TargetPath).manifest" />
-        <File Id="EXCEL.VstoManifest" Source="$(var.BuffettCodeAddinRibbon.TargetDir)$(var.BuffettCodeAddinRibbon.TargetName).vsto" />
-        <File Id="EXCEL.DLL" Source="$(var.BuffettCodeAddinRibbon.TargetDir)BuffettCodeIO.dll" />
-        <File Id="EXCEL.JsonDLL" Source="$(var.BuffettCodeAddinRibbon.TargetDir)Newtonsoft.Json.dll" />
-        <File Id="EXCEL.CsvHelper" Source="$(var.BuffettCodeAddinRibbon.TargetDir)CsvHelper.dll" />
-        <File Id="EXCEL.ValueTuple" Source="$(var.BuffettCodeAddinRibbon.TargetDir)System.ValueTuple.dll" />
-        <File Id="EXCEL.ToolsCommon" Source="$(var.BuffettCodeAddinRibbon.TargetDir)Microsoft.Office.Tools.Common.v4.0.Utilities.dll" />
-        <!-- VSTOのレジストリ定義 -->
-        <RegistryKey Root="HKCU" Key="Software\Microsoft\Office\Excel\Addins\BuffettCode">
-          <RegistryValue Name="Description" Value="BuffettCode" Type="string" Action="write" />
-          <RegistryValue Name="FriendlyName" Value="BuffettCode" Type="string" Action="write" />
-          <RegistryValue Name="LoadBehavior" Value="3" Type="integer" Action="write" />
-          <RegistryValue Name="Manifest" Value="[#EXCEL.VstoManifest]|vstolocal" Type="string" Action="write" />
-        </RegistryKey>
-      </Component>
-      <Component Id="XLL32" Guid="D3488836-8EE7-4035-9539-4539A72F9D80" Directory="AddinFolder">
-        <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\Excel Add-In" Name="Xll32Bit" Value="AddIns" KeyPath="yes" Type="string" />
-        <!-- テスト用のAPIキーをインストール時に設定する (β版のみ) -->
-        <!--
-        <RegistryKey Root="HKCU" Key="Software\BuffettCode">
-          <RegistryValue Name="ApiKey" Value="sAJGq9JH193KiwnF947v74KnDYkO7z634LWQQfPY" Type="string" Action="write" />
-        </RegistryKey>
-        -->
-        <File Id="EXCELXLL32PACKED.XLL" Name="!(loc.ProductNameNoSpace)32.xll" Source="$(var.BuffettCodeExcelFunctions.TargetDir)BuffettCodeExcelFunctions-AddIn-packed.xll" >
-          <netfx:NativeImage Id="ngen_32Xll" Platform="32bit" Priority="0"/>
-        </File>
-      </Component>
-      <Component Id="XLL64" Guid="17F10CB0-03A8-4F9E-A681-62A67E5BE2B7" Directory="AddinFolder">
-        <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\Excel Add-In" Name="Xll64Bit" Value="AddIns" KeyPath="yes" Type="string" />
-        <!-- テスト用のAPIキーをインストール時に設定する (β版のみ) -->
-        <!--
-        <RegistryKey Root="HKCU" Key="Software\BuffettCode">
-          <RegistryValue Name="ApiKey" Value="sAJGq9JH193KiwnF947v74KnDYkO7z634LWQQfPY" Type="string" Action="write" />
-        </RegistryKey>
-        -->
-        <File Id="EXCELXLL64PACKED.XLL" Name="!(loc.ProductNameNoSpace)64.xll" Source="$(var.BuffettCodeExcelFunctions.TargetDir)BuffettCodeExcelFunctions-AddIn-packed.xll" >
-          <netfx:NativeImage Id="ngen_64Xll" Platform="64bit" Priority="0"/>
-        </File>
-        <RemoveFile On="uninstall" Id="XLL32" Directory="AddinFolder" Name="!(loc.ProductNameNoSpace)32.xll" />
-        <RemoveFile On="uninstall" Id="XLL64" Directory="AddinFolder" Name="!(loc.ProductNameNoSpace)64.xll" />
-        <RemoveFolder Id="AddinFolderRemove" Directory="AddinFolder" On="uninstall" />
-        <RemoveFolder Id="COMPANYAPPDATADIRRemove" Directory="COMPANYAPPDATADIR" On="uninstall" />
-      </Component>
-    </ComponentGroup>
-  </Fragment>
+    </Product>
 </Wix>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="AddinRibonRegistryKey" Value="Software\Microsoft\Office\Excel\Addins\BuffettCode" />
+        <Property Id="AddinConfigurationKey" Value="SOFTWARE\BuffettCode\ExcelAddin" />
+        <Property Id="AddinLegacyConfigurationKey" Value="SOFTWARE\BuffettCode" />
+        <ComponentGroup Id="SetupRegistry">
+            <!-- delete old configurations -->
+            <Component Id="RemoveConfigurationInRegistryOnInstall" Guid="29fd8a07-20a0-4aa4-8a23-095ba03bb71c" Directory="AddinFolder" KeyPath="yes">
+                <RemoveRegistryKey Root="HKCU" Key="[AddinRibbonSetupRegistry]" Action="removeOnInstall" />
+                <RemoveRegistryKey Root="HKCU" Key="[AddinLegacyConfigurationKey]" Action="removeOnInstall" />
+                <RemoveRegistryKey Root="HKCU" Key="[AddinConfigurationKey]" Action="removeOnInstall" />
+            </Component>
+            <!-- setup ribbon -->
+            <Component Id="SetAddinRibbonSetupRegistry" Guid="6C761D06-FF04-4FAA-A072-A02E5B5B724D" Directory="AddinFolder" KeyPath="yes">
+                <RegistryKey Root="HKCU" Key="[AddinRibonRegistryKey]">
+                    <RegistryValue Name="Description" Value="BuffettCode" Type="string" Action="write" />
+                    <RegistryValue Name="FriendlyName" Value="BuffettCode" Type="string" Action="write" />
+                    <RegistryValue Name="LoadBehavior" Value="3" Type="integer" Action="write" />
+                    <RegistryValue Name="Manifest" Value="filFDEE9AC002BC107FFB0DF3869A23CC6C" Type="string" Action="write" />
+                </RegistryKey>
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="CleanupRegistry">
+            <Component Id="RemoveRegistryKeysOnUnInstall" Guid="8b54f77b-c5af-4694-90fb-2fd2ea6ec2ae" Directory="AddinFolder" KeyPath="yes">
+                <RemoveRegistryKey Root="HKCU" Key="[AddinRibbonSetupRegistry]" Action="removeOnUninstall" />
+                <RemoveRegistryKey Root="HKCU" Key="[AddinConfigurationKey]" Action="removeOnUninstall" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

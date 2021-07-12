@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+    <Fragment>
+        <ComponentGroup Id="ExcelFunctions">
+            <!-- 
+            Components always have unique GUIDs so that Windows can track every file installed. This information is stored in the registry.
+            Components should only contain a single file. KeyPath files will be replaced if missing by the repair button on the installer.
+            Try using for source: $(var.PROJECTREF.TargetDir)$(var.PROJECTREF.TargetName)-AddIn64-packed.xll
+            
+            ref: https://github.com/Excel-DNA/WiXInstaller/blob/master/Source/ExcelAddInDeploy/Product.wxs -->
+            <!-- Install UDF for 32 bit -->
+            <Component Id="BC_UDF_XLL32" Guid="D3488836-8EE7-4035-9539-4539A72F9D80" Directory="AddinFolder">
+                <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\Excel Add-In" Name="Xll32Bit" Value="AddIns" KeyPath="yes" Type="string" />
+                <File Id="EXCELXLL32PACKED.XLL" Name="!(loc.ProductNameNoSpace)32.xll" Source="$(var.BuffettCodeExcelFunctions.TargetDir)BuffettCodeExcelFunctions-AddIn-packed.xll" >
+                <netfx:NativeImage Id="ngen_32Xll" Platform="32bit" Priority="0"/>
+                </File>
+            </Component>
+
+            <!-- Install UDF for 64 bit -->
+            <Component Id="BC_UDF_XLL64" Guid="17F10CB0-03A8-4F9E-A681-62A67E5BE2B7" Directory="AddinFolder">
+                <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\Excel Add-In" Name="Xll64Bit" Value="AddIns" KeyPath="yes" Type="string" />
+                <File Id="EXCELXLL64PACKED.XLL" Name="!(loc.ProductNameNoSpace)64.xll" Source="$(var.BuffettCodeExcelFunctions.TargetDir)BuffettCodeExcelFunctions-AddIn-packed.xll" >
+                <netfx:NativeImage Id="ngen_64Xll" Platform="64bit" Priority="0"/>
+                </File>
+                <RemoveFile On="uninstall" Id="REMOVE_BC_UDF_XLL32" Directory="AddinFolder" Name="!(loc.ProductNameNoSpace)32.xll" />
+                <RemoveFile On="uninstall" Id="REMOVE_BC_UDF_XLL64" Directory="AddinFolder" Name="!(loc.ProductNameNoSpace)64.xll" />
+                <RemoveFolder Id="AddinFolderRemove" Directory="AddinFolder" On="uninstall" />
+                <RemoveFolder Id="COMPANYAPPDATADIRRemove" Directory="COMPANYAPPDATADIR" On="uninstall" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

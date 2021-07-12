@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="AddinFolder">
+            <Component Id="cmp19B9F31B3280FEF33F73F282A5D92370" Guid="*">
+                <File Id="filB297AECF87838C945DF058F33F221A68" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAddinRibbon.dll" />
+            </Component>
+            <Component Id="cmp988BA154C4D9478B25D1330C3CC10EDF" Guid="*">
+                <File Id="fil7776EC781AFBBAAE1BB5DB2F69E2D773" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAddinRibbon.dll.config" />
+            </Component>
+            <Component Id="cmpE9F6251858316C79B1162400FE244BBB" Guid="*">
+                <File Id="filFDEE9AC002BC107FFB0DF3869A23CC6C" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAddinRibbon.dll.manifest" />
+            </Component>
+            <Component Id="cmpE0793276A1782A579B7E2C50D75CB3F7" Guid="*">
+                <File Id="filE8109F680DC3E1AF489E2E1CA39F96F9" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAddinRibbon.pdb" />
+            </Component>
+            <Component Id="cmpAFE78D09F080D2B94B8E7AC1AE56D542" Guid="*">
+                <File Id="fil930E938B07A3581BA803FFB568FC605A" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAddinRibbon.vsto" />
+            </Component>
+            <Component Id="cmp75FCF96E3E8ED6C44E78A9DEB8022A1E" Guid="*">
+                <File Id="filA25DE92A0F3A6DE0A94283148D48CCA4" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAPIClient.dll" />
+            </Component>
+            <Component Id="cmpB5F384839307819AEEA9D5C26D3FB84C" Guid="*">
+                <File Id="fil98F19189B46D4BF5BB64FF7E4E0B9F0A" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAPIClient.dll.config" />
+            </Component>
+            <Component Id="cmp77418D49E65F2CC1C2A219313C61BD26" Guid="*">
+                <File Id="filF960396187A92EF4136FBAEE70B6C876" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeAPIClient.pdb" />
+            </Component>
+            <Component Id="cmp40CD031D69A9188CBCCF48170920C3DD" Guid="*">
+                <File Id="fil27A7DB152F862DC063F72EA35F4C3D0D" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeCommon.dll" />
+            </Component>
+            <Component Id="cmpE7824E08602BBB9BFD528B220CDADE1B" Guid="*">
+                <File Id="filC04574BC3125BE070426E0183F0DDCBC" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeCommon.pdb" />
+            </Component>
+            <Component Id="cmpBCBF84C98F8CD2DD6819DE7ED2654380" Guid="*">
+                <File Id="filC84245AD97E739E9CB5158E4670803B1" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeIO.dll" />
+            </Component>
+            <Component Id="cmpD0C7E0D3867E36DF8F77868C149AF573" Guid="*">
+                <File Id="fil6DEB3A4B857382D984D147E05888B21D" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeIO.dll.config" />
+            </Component>
+            <Component Id="cmpC05EDF9A62E4F89F4E75833F06949EFC" Guid="*">
+                <File Id="filFFADEB729CD74515E27129CDBA3FFD73" KeyPath="yes" Source="$(var.RibbonHarvestPath)\BuffettCodeIO.pdb" />
+            </Component>
+            <Component Id="cmp351C7BA72D3CB271C832C714961C6E11" Guid="*">
+                <File Id="fil945B30EFCBA0793E23DD835CB16BBA28" KeyPath="yes" Source="$(var.RibbonHarvestPath)\CsvHelper.dll" />
+            </Component>
+            <Component Id="cmp2068870D6EA8EBA19E43D6369C5CF0CA" Guid="*">
+                <File Id="fil9B0815B245F65807B04CC21F6620DA28" KeyPath="yes" Source="$(var.RibbonHarvestPath)\CsvHelper.xml" />
+            </Component>
+            <Component Id="cmpC72A96EC14515589800E091542000C84" Guid="*">
+                <File Id="fil5470EFE094FEE7856E90FED7D30D31A1" KeyPath="yes" Source="$(var.RibbonHarvestPath)\Microsoft.Office.Tools.Common.v4.0.Utilities.dll" />
+            </Component>
+            <Component Id="cmp6616CB17E4922802E5C84B9C16935052" Guid="*">
+                <File Id="fil9BBA16653E5D3B491B96426D91CF8249" KeyPath="yes" Source="$(var.RibbonHarvestPath)\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmp196F1D763CBB036DA160606D8D0E27DA" Guid="*">
+                <File Id="fil83D9BCFD839F35A59CAF8AB3AB656AE9" KeyPath="yes" Source="$(var.RibbonHarvestPath)\Newtonsoft.Json.xml" />
+            </Component>
+            <Component Id="cmpAD568283CFD6A75645ED0ECDD761D85E" Guid="*">
+                <File Id="filA12D9DE081467DACFD3B4C1025434C4C" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Buffers.dll" />
+            </Component>
+            <Component Id="cmp58DACAD6E5ECA27D45E862422C36391A" Guid="*">
+                <File Id="fil85D2AAC1FD1C3BCA4D56A89865C93BF7" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Buffers.xml" />
+            </Component>
+            <Component Id="cmp5A904851F9DE7369E243943F4E5027FA" Guid="*">
+                <File Id="fil5EC8BD617ECC4CAA66A5310AFD181E04" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Memory.dll" />
+            </Component>
+            <Component Id="cmp72CFC8F9FE5280FECF3FC56AB41DA067" Guid="*">
+                <File Id="filA5CFC5B9817EC69CCB9BAFF20CBEEEA4" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Memory.xml" />
+            </Component>
+            <Component Id="cmpB5468F5DF6425D31E8036A019997ED81" Guid="*">
+                <File Id="filB997D5ACF1187050162A1467E8B6D9B7" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Numerics.Vectors.dll" />
+            </Component>
+            <Component Id="cmp3C1D35C4AF866B16CE0AEFE0BE9FD746" Guid="*">
+                <File Id="filA577FC486FD92F4C65420CF9D36D4D81" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Numerics.Vectors.xml" />
+            </Component>
+            <Component Id="cmp8502820C95556A3A5301EB2F54E6E663" Guid="*">
+                <File Id="fil0B46621F425AC6B249AE4B4EF8EE7723" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Runtime.CompilerServices.Unsafe.dll" />
+            </Component>
+            <Component Id="cmpE7329B31E991F41A556560526BC480DF" Guid="*">
+                <File Id="fil5563FFADE715D9089ECB78DB56FE43A3" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.Runtime.CompilerServices.Unsafe.xml" />
+            </Component>
+            <Component Id="cmp676B532506E78F84084C12B1FAE054E3" Guid="*">
+                <File Id="fil9B24D665A20C2F5F03044136BBBE054F" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.ValueTuple.dll" />
+            </Component>
+            <Component Id="cmp693DF999232B83CFADE3AF4AFB0A0D94" Guid="*">
+                <File Id="filC5FB10930FE6D0DD10B7EE7A9EB41C00" KeyPath="yes" Source="$(var.RibbonHarvestPath)\System.ValueTuple.xml" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="HeatGeneratedAddinRibbon">
+            <ComponentRef Id="cmp19B9F31B3280FEF33F73F282A5D92370" />
+            <ComponentRef Id="cmp988BA154C4D9478B25D1330C3CC10EDF" />
+            <ComponentRef Id="cmpE9F6251858316C79B1162400FE244BBB" />
+            <ComponentRef Id="cmpE0793276A1782A579B7E2C50D75CB3F7" />
+            <ComponentRef Id="cmpAFE78D09F080D2B94B8E7AC1AE56D542" />
+            <ComponentRef Id="cmp75FCF96E3E8ED6C44E78A9DEB8022A1E" />
+            <ComponentRef Id="cmpB5F384839307819AEEA9D5C26D3FB84C" />
+            <ComponentRef Id="cmp77418D49E65F2CC1C2A219313C61BD26" />
+            <ComponentRef Id="cmp40CD031D69A9188CBCCF48170920C3DD" />
+            <ComponentRef Id="cmpE7824E08602BBB9BFD528B220CDADE1B" />
+            <ComponentRef Id="cmpBCBF84C98F8CD2DD6819DE7ED2654380" />
+            <ComponentRef Id="cmpD0C7E0D3867E36DF8F77868C149AF573" />
+            <ComponentRef Id="cmpC05EDF9A62E4F89F4E75833F06949EFC" />
+            <ComponentRef Id="cmp351C7BA72D3CB271C832C714961C6E11" />
+            <ComponentRef Id="cmp2068870D6EA8EBA19E43D6369C5CF0CA" />
+            <ComponentRef Id="cmpC72A96EC14515589800E091542000C84" />
+            <ComponentRef Id="cmp6616CB17E4922802E5C84B9C16935052" />
+            <ComponentRef Id="cmp196F1D763CBB036DA160606D8D0E27DA" />
+            <ComponentRef Id="cmpAD568283CFD6A75645ED0ECDD761D85E" />
+            <ComponentRef Id="cmp58DACAD6E5ECA27D45E862422C36391A" />
+            <ComponentRef Id="cmp5A904851F9DE7369E243943F4E5027FA" />
+            <ComponentRef Id="cmp72CFC8F9FE5280FECF3FC56AB41DA067" />
+            <ComponentRef Id="cmpB5468F5DF6425D31E8036A019997ED81" />
+            <ComponentRef Id="cmp3C1D35C4AF866B16CE0AEFE0BE9FD746" />
+            <ComponentRef Id="cmp8502820C95556A3A5301EB2F54E6E663" />
+            <ComponentRef Id="cmpE7329B31E991F41A556560526BC480DF" />
+            <ComponentRef Id="cmp676B532506E78F84084C12B1FAE054E3" />
+            <ComponentRef Id="cmp693DF999232B83CFADE3AF4AFB0A0D94" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

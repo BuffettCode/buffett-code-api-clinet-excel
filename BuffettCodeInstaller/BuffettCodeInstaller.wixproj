@@ -28,8 +28,18 @@
     <Cultures>ja-JP</Cultures>
     <SuppressIces>ICE57</SuppressIces>
   </PropertyGroup>
+  <!-- ref: https://stackoverflow.com/questions/36756311/include-all-files-in-bin-folder-in-wix-installer-->
+  <!-- set Define the Harvestpath for Heat -->
+  <PropertyGroup>
+    <DefineConstants>RibbonHarvestPath=..\BuffettCodeAddinRibbon\bin\$(Configuration)\</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ExcelFunctions.wxs" />
+    <Compile Include="HeatGeneratedAddinRibbon.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="Registry.wxs" />
+    <!-- default  -->
+    <!-- This is the Heat created one -->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BuffettCodeAddinRibbon\BuffettCodeAddinRibbon.csproj">
@@ -82,9 +92,12 @@
   <Import Project="$(WixTargetsPath)" />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
+	Other similar extension points exist, see Wix.targets. -->
+  <!-- ref: https://wixtoolset.org/documentation/manual/v3/msbuild/task_reference/heatdirectory.html -->
+  <Target Name="BeforeBuild">
+    <HeatDirectory Directory="..\BuffettCodeAddinRibbon\bin\$(Configuration)\" PreprocessorVariable="var.RibbonHarvestPath" OutputFile="HeatGeneratedAddinRibbon.wxs" ComponentGroupName="HeatGeneratedAddinRibbon" DirectoryRefId="AddinFolder" ToolPath="$(WixToolPath)" AutogenerateGuids="true" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" />
+  </Target>
+  <!--
 	<Target Name="AfterBuild">
 	</Target>
 	-->
